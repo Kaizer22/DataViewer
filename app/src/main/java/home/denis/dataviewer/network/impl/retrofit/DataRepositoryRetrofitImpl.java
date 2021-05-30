@@ -1,21 +1,23 @@
 package home.denis.dataviewer.network.impl.retrofit;
 
-import androidx.recyclerview.widget.SortedList;
-
 import java.util.List;
 
 import home.denis.dataviewer.model.Entity;
-import home.denis.dataviewer.model.ShortEntity;
 import home.denis.dataviewer.network.DataRepository;
 import retrofit2.Callback;
 
 public class DataRepositoryRetrofitImpl implements DataRepository {
-
     //TODO retorfit2 independent callbacks
     @Override
-    public void getAllEntities(Callback<List<Entity>> callback) {
+    public void getEntityByType(Callback<List<Entity>> callback, String entityType) {
         NetworkHelper.getService()
-                .getAllEntities().enqueue(callback);
+                .getEntitiesByType(entityType).enqueue(callback);
+    }
+
+    @Override
+    public void getChildEntities(Callback<List<Entity>> callback, long parentId) {
+        NetworkHelper.getService()
+                .getChildEntities(parentId).enqueue(callback);
     }
 
     @Override
@@ -24,12 +26,8 @@ public class DataRepositoryRetrofitImpl implements DataRepository {
                 .getEntity(entityId).enqueue(callback);
     }
 
-    @Override
-    public void getShortEntities(Callback<List<ShortEntity>> callback) {
-        NetworkHelper.getService()
-                .getEntitiesList().enqueue(callback);
 
-    }
+
 
 
 }
